@@ -1,0 +1,15 @@
+{
+  "environment": "dev",
+  "port": 8080,
+  "log": {
+    "level": "debug",
+    "file": "logs/tasks.log"
+  },
+  "db": {
+    "host": "localhost",
+    "port": 15432,
+    "username": "postgres",
+    "password": "postgres",
+    "database": "tasks"
+  }
+}

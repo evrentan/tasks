@@ -10,8 +10,33 @@ services:
       - POSTGRES_DB=tasks
     ports:
       - "15432:5432"
+    networks:
+      - tasks-backend-network
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
       timeout: 5s
       retries: 5
+  tasks-api:
+    image: tasks-api
+    container_name: tasks-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - tasks-backend-network
+    depends_on:
+      tasks-db:
+        condition: service_healthy
+    environment:
+      DB_HOST: tasks-db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: tasks
+
+networks:
+  tasks-backend-network:
+    driver: bridge
